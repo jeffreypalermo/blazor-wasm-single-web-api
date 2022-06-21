@@ -5,6 +5,8 @@ With Blazor's implementation of WASM, the front end and the backend of a Blazor 
 
 This demo will be going over what code is needed to be added to both the frontend and the backend. And how to add additional queries to your application.
 
+![Architecture](architecture.png)
+
 ## Getting Started
 > Note: You can download the repository and move to the next section if you want to have the project already running. 
 
