@@ -1,5 +1,7 @@
+Thanks to [Clear Measure](https://www.clearmeasure.com) for sponsoring this sample and episode of [Programming with Palermo](https://www.palermo.network).
+
 # Json Serialization
-With Blazor's implantation of WASM the front end and the backend of a Blazor C# project is separated. This means that for the WASM project to run on the client side it needs to interact with a server to send and receive data. This is possible using API's however each API call to the Server will create a new connection. With this Json Serialization pattern you will create a single API and a single connection to send/receive data from the front end to the back end. With the help of MediatR on the server side this process is quite simple and I think you will find this pattern to be very helpful and prevent the creation of hundreds of API endpoints.
+With Blazor's implementation of WASM, the front end and the backend of a Blazor C# project is separated. This means that for the WASM project to run on the client side it needs to interact with a server to send and receive data. This is possible using API's however it's far too easy to create many api controllers for every reason to call to the server. With this Json Serialization pattern you will create a single API to send/receive data from the front end to the back end. This patterns prevents the creation of hundreds of API endpoints for Blazor WebAssembly applications as they grow.
 
 This demo will be going over what code is needed to be added to both the frontend and the backend. And how to add additional queries to your application.
 
@@ -27,8 +29,8 @@ builder.Services.AddTransient<IBus, Bus>();
 - **WeatherForecastController.cs** - This is the only API that will be needed for the application to run. You can change the name of the controller. Make sure you don’t change any of the code however. If you wish to change the Controller make sure you update the call in **PublisherGateway.cs** in the Shared application and in the **SendToTopic** method.
 ```
 [ApiController]
-[Route("api/[controller]")]
-public class WeatherForecastController : ControllerBase
+[Route("your-chosen-url")]
+public class ApiController : ControllerBase
 {
     private readonly IBus _bus;
 
@@ -193,3 +195,7 @@ StateHasChanged();
 
 ## Conclusion
 Using this pattern allows developers to simply create queries and handlers without having to worry about various API endpoints. This will in return allow the Client-side application to only make one connection to send all requests. All the Serialization is done for the developer so they only have to worry about what data they need and what data they want to send
+
+
+
+Thanks to [Clear Measure](https://www.clearmeasure.com) for sponsoring this sample and episode of [Programming with Palermo](https://www.palermo.network).

@@ -1,0 +1,72 @@
+﻿@page "/fetchdata"
+@using WebAssemblyWithAPI.Shared
+@using WebAssemblyWithAPI.Shared.Models
+@using WebAssemblyWithAPI.Shared.Queries
+@inject IBus Bus
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <button class="btn btn-primary" @onclick="LoadData">Load Data</button>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temp. (C)</th>
+            <th>Temp. (F)</th>
+            <th>Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var forecast in forecasts)
+        {
+            <tr @onclick="@(()=>Select(forecast))">
+                <td>@forecast.Date.ToShortDateString()</td>
+                <td>@forecast.TemperatureC</td>
+                <td>@forecast.TemperatureF</td>
+                <td>@forecast.Summary</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (Data != null)
+{
+    <h2>@Data.ForecastDetails</h2>
+    <button class="btn btn-primary" @onclick="Update">Update</button>
+}
+
+@code {
+    private WeatherForecast[] forecasts;
+    private AdditionalForecastData Data;
+    private WeatherForecast SelectedForecast;
+
+    private async Task LoadData()
+    {
+        forecasts = await Bus.Send(new ForecastQuery());
+        StateHasChanged();
+    }
+
+    private async Task Select(WeatherForecast selected)
+    {
+        SelectedForecast = selected;
+        Data = await Bus.Send(new AdditionalForecastQuery(selected.Id));
+        StateHasChanged();
+    }
+
+    private async Task Update()
+    {
+        forecasts = await Bus.Send(new UpdateForecastCommand(SelectedForecast.Id, forecasts));
+        StateHasChanged();
+    }
+
+}
