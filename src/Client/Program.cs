@@ -10,7 +10,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddTransient<PublisherGateway>();
 builder.Services.AddTransient<IBus, RemoteableBus>();
 var url = builder.Configuration.GetValue<string>("RemoteBusUrl");
