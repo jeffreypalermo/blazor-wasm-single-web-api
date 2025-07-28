@@ -46,3 +46,4 @@ Ankh.NoLoad
 #Other
 .svn
 /.vs
+/src/.vs/WebAssemblyWithAPI
